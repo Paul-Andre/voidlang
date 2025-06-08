@@ -21,4 +21,3 @@ TAGGED(AstExUnop)
 
 TAGGED(AstTyVar)
 
-#undef TAGGED

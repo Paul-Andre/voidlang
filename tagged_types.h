@@ -9,11 +9,13 @@ enum Tag {
 #define TAGGED(Name) \
   TAG_##Name,
 #include "tagged.def"
+#undef TAGGED
 };
 
 #define TAGGED(Name) \
   struct Name;
 #include "tagged.def"
+#undef TAGGED
 
 #define TAG(Name) TAG_##Name
 

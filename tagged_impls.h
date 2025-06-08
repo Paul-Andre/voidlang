@@ -10,6 +10,7 @@
     return ret; \
   }
 #include "tagged.def"
+#undef TAGGED
 
 #define TAGGED(Name) \
   struct Name *is_##Name(struct Tagged *t) { \
@@ -20,6 +21,7 @@
     return NULL; \
   }
 #include "tagged.def"
+#undef TAGGED
 
 #define ALLOC_TAGGED(Name) alloc_##Name()
 
