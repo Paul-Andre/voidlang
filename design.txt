@@ -1,0 +1,9 @@
+
+
+== Coding Style ==
+
+Whenever there is an error within some function, print an error message about
+it locally and then return some kind of signal saying that there was an error.
+The caller will then continue doing what it's doing potentially printing more
+error messages, taking into account that the value that it was supposed to get
+is "poisoned".

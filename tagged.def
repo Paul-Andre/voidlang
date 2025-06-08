@@ -1,0 +1,24 @@
+TAGGED(AstTlFn)
+
+TAGGED(AstStAss)
+// TAGGED(AstStDecl)
+TAGGED(AstStEx)
+TAGGED(AstStRet)
+
+TAGGED(AstStIf)
+TAGGED(AstStWhile)
+
+TAGGED(AstStLabel)
+TAGGED(AstStGoto)
+// TAGGED(AstStGotoHang)
+TAGGED(AstStBranch)
+
+TAGGED(AstExCall)
+TAGGED(AstExLit)
+TAGGED(AstExVar)
+TAGGED(AstExBinop)
+TAGGED(AstExUnop)
+
+TAGGED(AstTyVar)
+
+#undef TAGGED

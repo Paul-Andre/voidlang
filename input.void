@@ -1,0 +1,79 @@
+fn asdf(a, b) -> int {
+}
+
+fn asdf(a) -> int {
+}
+
+fn asdf() -> int {
+}
+
+fn asdf(a,b,c) -> int {
+}
+
+fn asdf() {
+}
+
+fn asdf() {
+  # let k: int = 4;
+  a;
+  12;
+  a();
+  a(1,2);
+  a(1)()()()()(a)(c);
+  a(1,2)(c(1,2));
+  (a(1,2));
+  c = d;
+  c = d * 3 / 5 % 5;
+  c =  a + a * b + a * b * c;
+  c =  a or b and c == d < e + f * g;
+  c =  a * b + c < d == e and f or g;
+  c =  a * b + c < d + e * f;
+  c = a or b and c (d) or d;
+  c =  a or b and c == d and e or f;
+  c = a and (b or c);
+  c = a and b or c;
+  c = (a and b) or c;
+  c = a or (b and c);
+  c = a or b and c;
+  c = (a or b) and c;
+  c = -d.c;
+  c = d();
+  c = a and not (b or c);
+  c = a * -1;
+  a(b,c) = b;
+  a(b,c) = b(1,9223372036854775807);
+  return;
+  return 1;
+  return a(b,c);
+}
+
+fn asdfa() {
+
+  asdfadsfasdfasdfasdf();
+  while 0 {
+
+   if afad {
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa();
+    }
+  }
+  bbbbbbbbbbbbbbbbbbb();
+}
+
+fn asdfa() {
+  if (a) {
+    if (aaaa) {
+      c();
+    }
+  } else if (b) {
+  } else if (c) {
+  } else if (d) {
+  }
+
+  asdf: goto as;
+  as: goto baz;
+  baz:
+
+
+}
+
+

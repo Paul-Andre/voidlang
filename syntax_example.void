@@ -1,0 +1,15 @@
+fn asdf(a: int, b: int) -> int {
+  return a + b;
+}
+
+type Foo = struct {
+  k: *int,
+}
+
+fn do_thing(foo: ^Foo) -> int {
+  let f: int;
+  *foo.k = 5;
+  foo(&f);
+}
+
+
