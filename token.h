@@ -66,8 +66,8 @@ struct StrTk KEYWORD_MAPPING[] = {
     {"goto", TK_GOTO},
     {"branch", TK_BRANCH},
     {"break", TK_BREAK},
-    {"let", TK_LET},
     {"continue", TK_CONTINUE},
+    {"let", TK_LET},
 };
 
 struct Chunk token_to_chunk(struct Source *s, struct Token *t) {
