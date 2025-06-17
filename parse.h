@@ -298,8 +298,23 @@ struct AstEx *parse_prec_bin(struct TokenStream *s, struct AstEx *left,
 
     return parse_prec_bin(s, ret, left_group_prec);
   } else if (s->current.type == '[') {
-    print_parse_error(s, "parsing of indexing is unimplemented");
-    return NULL;
+    token_stream_advance(s);
+
+    struct AstEx *ae = parse_ex(s);
+    if (ae == NULL) {
+        return NULL;
+    }
+    if (s->current.type != ']'){
+      print_parse_error(s, "expected ']'");
+      return NULL;
+    }
+    token_stream_advance(s);
+
+    struct AstExIndexing *ret = ALLOC_TAGGED(AstExIndexing);
+    ret->base = left;
+    ret->index = ae;
+    return ret;
+
     /*
   } else if (s->current.type == '.') {
     print_parse_error(s, "parsing of field access is unimplemented");

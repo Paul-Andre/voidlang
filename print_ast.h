@@ -99,6 +99,16 @@ void print_ex(struct AstEx *a) {
     print_ex(aa->right);
 
     printf(")");
+  } else if (a->tag == TAG(AstExIndexing)){
+    struct AstExIndexing *aa = (struct AstExIndexing *)a;
+    print_ex(aa->base);
+    printf("[");
+    print_ex(aa->index);
+    printf("]");
+
+
+  } else {
+    printf("????");
   }
 }
 

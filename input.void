@@ -41,9 +41,11 @@ fn asdf() {
   c = d();
   c = a and not (b or c);
   c = a * -1;
-  a(b,c) = b;
+  # a(b,c) = b;
   # a(b,c) = b(1,9223372036854775807);
+  a[1];
   return;
+  a[2];
   return 1;
   return a(b,c);
 }

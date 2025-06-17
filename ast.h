@@ -112,6 +112,11 @@ struct AstExCall {
   struct AstEx *function;
   struct AstArgument *arguments;
 };
+struct AstExIndexing {
+  struct AstEx;
+  struct AstEx *base;
+  struct AstEx *index;
+};
 struct AstExBinop {
   struct AstEx;
   enum TokenType op;
