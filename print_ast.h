@@ -150,10 +150,10 @@ void print_label_info(struct LabelInfo *l) {
 
 
 void print_st(struct AstSt *a) {
-  if (a->tag == TAG(AstStAss)) {
-    struct AstStAss *aa = (struct AstStAss *)a;
+  if (a->tag == TAG(AstStAssVar)) {
+    struct AstStAssVar *aa = (struct AstStAssVar *)a;
     print_indent();
-    print_ex(aa->left);
+    print_chunk(aa->name);
     printf(" = ");
     increase_indent();
     print_ex(aa->right);

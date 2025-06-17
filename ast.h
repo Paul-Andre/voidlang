@@ -51,9 +51,9 @@ struct AstExLit {
   struct AstEx;
   int64_t value;
 };
-struct AstStAss {
+struct AstStAssVar {
   struct AstSt;
-  struct AstEx *left;
+  struct Chunk name;
   struct AstEx *right;
 };
 struct AstStRet {

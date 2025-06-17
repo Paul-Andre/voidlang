@@ -16,6 +16,7 @@ fn asdf() {
 fn asdf() {
   # let k: int = 4;
   a;
+  A.B;
   12;
   a();
   a(1,2);
@@ -41,7 +42,7 @@ fn asdf() {
   c = a and not (b or c);
   c = a * -1;
   a(b,c) = b;
-  a(b,c) = b(1,9223372036854775807);
+  # a(b,c) = b(1,9223372036854775807);
   return;
   return 1;
   return a(b,c);
@@ -117,7 +118,9 @@ fn asdfa() {
     if(d) {
       
     continue;
+    asdf;
     }
+    break;
     h();
   }
 }

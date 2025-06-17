@@ -14,7 +14,6 @@ void print_position(struct Source *s, struct TextPosition p) {
 }
 
 // Calculates horizontal position of character assuming tabs are replaced by
-// 4 spaces
 int get_drift(struct Source *s, struct TextPosition p) {
   char *line = s->lines[p.line - 1];
   ssize_t col = 1;
@@ -40,7 +39,7 @@ void print_line(struct Source *s, int line_num) {
   while (line[col - 1] != '\r' && line[col - 1] != '\n') {
     char c = line[col - 1];
     if (c == '\t') {
-      printf("    ");
+      printf(TAB_REPLACEMENT);
     } else {
       putchar(c);
     }
@@ -59,6 +58,7 @@ void print_arrow(struct Source *s, struct TextPosition p) {
   putchar('\n');
 }
 
+// TODO: make this work on multi-line spans
 void print_line_with_highlight(struct Source *s, struct TextPosition p,
                                ssize_t length, char *highlight) {
   char *line = s->lines[p.line - 1];
@@ -69,7 +69,7 @@ void print_line_with_highlight(struct Source *s, struct TextPosition p,
     }
     char c = line[col - 1];
     if (c == '\t') {
-      printf("    ");
+      printf(TAB_REPLACEMENT);
     } else {
       putchar(c);
     }
@@ -79,6 +79,12 @@ void print_line_with_highlight(struct Source *s, struct TextPosition p,
     }
   }
   putchar('\n');
+}
+
+void print_line_with_highlight_and_arrow(struct Source *s, struct TextPosition p,
+                               ssize_t length, char *highlight) {
+    print_line_with_highlight(s, p, length, highlight);
+    print_arrow(s, p);
 }
 
 void print_from_source(struct Source *s, struct TextPosition p,

@@ -15,15 +15,35 @@
     return NULL;                                                               \
   }
 
-
 void print_highlighting_current_token(struct TokenStream *s) {
   struct Token t = s->current;
   if (t.type > 0) {
-    print_line_with_highlight(&s->reader.source, t.start, t.length, COLOR_RED);
-    print_arrow(&s->reader.source, t.start);
+    print_line_with_highlight_and_arrow(&s->reader.source, t.start, t.length, COLOR_RED);
   }
 }
 
+
+void print_compilation_error(struct Source *s, struct TextPosition p,
+                               ssize_t length, const char *fmt, ...)
+    __attribute__((format(printf, 4, 5)));
+void print_compilation_error(struct Source *s, struct TextPosition p,
+                               ssize_t length, const char *fmt, ...) {
+
+  print_position(s, p);
+  print_error();
+
+  va_list myargs;
+  va_start(myargs, fmt);
+  vprintf(fmt, myargs);
+  va_end(myargs);
+  printf("\n");
+
+print_line_with_highlight_and_arrow(s, p, length, COLOR_RED);
+
+}
+
+
+// XXX: currently duplicate because I need to figure out how to do the varg stuff, or if it even is possible
 void print_parse_error(struct TokenStream *s, const char *fmt, ...)
     __attribute__((format(printf, 2, 3)));
 void print_parse_error(struct TokenStream *s, const char *fmt, ...) {
@@ -490,21 +510,37 @@ struct AstSt *parse_st(struct TokenStream *s) {
   // TODO: better error message. It tries to parse expression and complains that
   // it expects tokens that start an expression. Maybe look ahead to see if
   // looks like an expression
+  struct TextPosition e_start = s->current.start;
+  char *e_actual_position = source_get_ptr(&s->reader.source, e_start);
   struct AstEx *e = parse_ex(s);
   RETURN_IF_NULL(e);
 
+  int e_length = reader_get_ptr(&s->reader) - e_actual_position - 1;
+
   if (s->current.type == '=') {
-    token_stream_advance(s);
 
-    struct AstEx *ee = parse_ex(s);
-    RETURN_IF_NULL(ee);
 
-    EXPECT_SEMICOLON(s);
+    
 
-    struct AstStAss *ret = ALLOC_TAGGED(AstStAss);
-    ret->left = e;
-    ret->right = ee;
-    return ret;
+    if (e->tag == TAG(AstExVar)){
+      token_stream_advance(s);
+
+      struct AstEx *ee = parse_ex(s);
+      RETURN_IF_NULL(ee);
+
+      EXPECT_SEMICOLON(s);
+
+      struct AstStAssVar *ret = ALLOC_TAGGED(AstStAssVar);
+      struct AstExVar *er = (struct AstExVar *) e;
+      ret->name = er->name;
+
+      ret->right = ee;
+      return ret;
+    } else {
+  
+      print_compilation_error(&s->reader.source, e_start, e_length, "Invalid expression on the left hand side of assignment");
+      return NULL;
+    }
   }
   if (s->current.type == ':') {
     if (IS_TAGGED(AstExVar, e)) {

@@ -1,6 +1,6 @@
 TAGGED(AstTlFn)
 
-TAGGED(AstStAss)
+TAGGED(AstStAssVar)
 // TAGGED(AstStDecl)
 TAGGED(AstStEx)
 TAGGED(AstStRet)
