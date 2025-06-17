@@ -117,6 +117,11 @@ struct AstExIndexing {
   struct AstEx *base;
   struct AstEx *index;
 };
+struct AstExProperty {
+  struct AstEx;
+  struct AstEx *base;
+  struct Chunk name;
+};
 struct AstExBinop {
   struct AstEx;
   enum TokenType op;

@@ -17,6 +17,11 @@ fn asdf() {
   # let k: int = 4;
   a;
   A.B;
+  (a.a).as;
+  a.a.as;
+  (a+s).sd;
+  a+s.sd;
+  a+a+a;
   12;
   a();
   a(1,2);

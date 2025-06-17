@@ -105,7 +105,13 @@ void print_ex(struct AstEx *a) {
     printf("[");
     print_ex(aa->index);
     printf("]");
-
+ } else if (a->tag == TAG(AstExProperty)){
+    struct AstExProperty *aa = (struct AstExProperty *)a;
+    printf("(");
+    print_ex(aa->base);
+    printf(".");
+    print_chunk(aa->name);
+    printf(")");
 
   } else {
     printf("????");

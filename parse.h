@@ -315,11 +315,22 @@ struct AstEx *parse_prec_bin(struct TokenStream *s, struct AstEx *left,
     ret->index = ae;
     return ret;
 
-    /*
+    
   } else if (s->current.type == '.') {
-    print_parse_error(s, "parsing of field access is unimplemented");
-    return NULL;
-    */
+        token_stream_advance(s);
+    if (s->current.type != TK_IDENT) {
+      print_parse_error(s, "expected property name");
+      return NULL;
+    }
+    struct Chunk ch = token_to_chunk(&s->reader.source, &s->current);
+
+    token_stream_advance(s);
+    struct AstExProperty *ret = ALLOC_TAGGED(AstExProperty);
+    ret->base = left;
+    ret->name = ch;
+    return parse_prec_bin(s, ret, 0);
+
+    
   } else if (is_binop(s->current.type)) {
     struct Token left_op = s->current;
     token_stream_advance(s);

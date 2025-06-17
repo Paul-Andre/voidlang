@@ -15,6 +15,7 @@ TAGGED(AstStContinue)
 // TAGGED(AstStGotoHang)
 TAGGED(AstStBranch)
 
+TAGGED(AstExProperty)
 TAGGED(AstExIndexing)
 TAGGED(AstExCall)
 TAGGED(AstExLit)
