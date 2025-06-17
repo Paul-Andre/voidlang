@@ -431,6 +431,33 @@ struct AstSt *parse_st(struct TokenStream *s) {
     ret->label.name = name;
     return ret;
   }
+  if (s->current.type == TK_BREAK || s->current.type == TK_CONTINUE) {
+    enum TokenType keyword = s->current.type;
+
+    token_stream_advance(s);
+
+    if (s->current.type != ';' && s->current.type != TK_IDENT) {
+      print_parse_error(s, "'break' and 'continue' must be followed by either ';' or the label of a labeled loop");
+      return NULL;
+    }
+    if (s->current.type == TK_IDENT) {
+      print_parse_error(s, "'break' and 'continue' with a label are not currently supported");
+      return NULL;
+    }
+    assert(s->current.type == ';');
+    token_stream_advance(s);
+
+    if (keyword == TK_BREAK) {
+      struct AstStBreak *ret = ALLOC_TAGGED(AstStBreak);
+      ret->label_unimplemented_sentry = 1;
+      return ret;
+    } else {
+      assert(keyword == TK_CONTINUE);
+      struct AstStContinue *ret = ALLOC_TAGGED(AstStContinue);
+      ret->label_unimplemented_sentry = 1;
+      return ret;
+    }
+  }
   if (s->current.type == TK_BRANCH) {
     token_stream_advance(s);
 

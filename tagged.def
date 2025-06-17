@@ -10,6 +10,8 @@ TAGGED(AstStWhile)
 
 TAGGED(AstStLabel)
 TAGGED(AstStGoto)
+TAGGED(AstStBreak)
+TAGGED(AstStContinue)
 // TAGGED(AstStGotoHang)
 TAGGED(AstStBranch)
 

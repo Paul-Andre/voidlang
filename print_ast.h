@@ -166,6 +166,18 @@ void print_st(struct AstSt *a) {
       print_ex(aa->ex);
     }
     printf(";\n");
+  } else if (a->tag == TAG(AstStBreak)) {
+    struct AstStBreak *aa = (struct AstStBreak *)a;
+    assert(aa->label_unimplemented_sentry == 1);
+    print_indent();
+    printf("break");
+    printf(";\n");
+  } else if (a->tag == TAG(AstStContinue)) {
+    struct AstStContinue *aa = (struct AstStContinue *)a;
+    assert(aa->label_unimplemented_sentry == 1);
+    print_indent();
+    printf("continue");
+    printf(";\n");
   } else if (a->tag == TAG(AstStIf)) {
     print_indent();
     print_if_chain(a);

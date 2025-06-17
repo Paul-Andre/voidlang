@@ -82,6 +82,16 @@ struct AstStGoto {
   struct AstSt;
   struct LabelInfo label;
 };
+struct AstStBreak {
+  struct AstSt;
+  int label_unimplemented_sentry;
+  // struct LabelInfo label;
+};
+struct AstStContinue {
+  struct AstSt;
+  int label_unimplemented_sentry;
+  // struct LabelInfo label;
+};
 struct AstStBranch {
   struct AstSt;
   struct AstEx *condition;
@@ -118,6 +128,8 @@ bool is_escape(enum Tag t) {
   return
     t==TAG(AstStRet) ||
     t==TAG(AstStGoto) ||
+    t==TAG(AstStBreak) ||
+    t==TAG(AstStContinue) ||
     t==TAG(AstStBranch);
 }
 
