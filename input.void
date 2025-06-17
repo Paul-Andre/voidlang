@@ -75,28 +75,50 @@ fn asdfa() {
 
 
 }
+
 fn asdfa() {
   while(a) {
-    if(b) {
-       break ;
+    f();
+    if(d) {
     }
+    h();
+  }
+}
+
+
+fn asdfa() {
+  while(a) {
+    f();
+    if(d) {
+      a;
+      break;
+      b;
+    }
+    h();
+  }
+}
+
+
+
+fn asdfa() {
+  while(a) {
+    f();
+    if(d) {
+      
+    break;
+    }
+    h();
   }
 }
 
 fn asdfa() {
   while(a) {
-    if(b) {
-       break ;
+    f();
+    if(d) {
+      
+    continue;
     }
-    if (c) {
-      continue;
-    }
-    while(h) {
-      d();
-      if (g) {
-        continue;
-      }
-    }
+    h();
   }
 }
 

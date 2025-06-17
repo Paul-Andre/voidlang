@@ -133,15 +133,21 @@ void print_if_chain(struct AstSt *a) {
     printf("\n");
 }
 
+void print_rei_label(struct ReiLabel *r) {
+  print_chunk(r->name);
+  printf("@_%d" , r->id);
+}
+
 void print_label_info(struct LabelInfo *l) {
   if (l->rei == NULL) {
     print_chunk(l->name);
   } else {
-    //printf("@");
-    print_chunk(l->rei->name);
-    printf("@_%d" , l->rei->id);
+    print_rei_label(l->rei);
   }
 }
+
+
+
 
 void print_st(struct AstSt *a) {
   if (a->tag == TAG(AstStAss)) {

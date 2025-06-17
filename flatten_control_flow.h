@@ -6,9 +6,16 @@
 #include "chunk.h"
 #include "label.h"
 
+struct LoopRepr {
+      struct ReiLabel *head_l;
+      struct ReiLabel *body_l;
+      struct ReiLabel *end_l;
+};
+
+void print_rei_label(struct ReiLabel *r);
 
 // Turn if and while into goto and branch
-struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append) {
+struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append, struct LoopRepr *surrounding_loop) {
   struct AstSt *root = a;
   struct AstSt **prev_next = &root;
   while (a != NULL) {
@@ -25,7 +32,7 @@ struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append) {
 
       init_label("then", &l1, &l1_ast);
       init_label("else", &l2, &l2_ast);
-      init_label("end", &end, &end_ast);
+      init_label("end_if", &end, &end_ast);
 
       struct AstStBranch *branch = ALLOC_TAGGED(AstStBranch);
       struct AstStGoto *goto1 = ALLOC_TAGGED(AstStGoto);
@@ -37,11 +44,11 @@ struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append) {
       branch->else_label.rei = l2;
       l2->num_users++;
       branch->next = l1_ast;
-      l1_ast->next = flatten_control_flow(aa->then_body, goto1);
+      l1_ast->next = flatten_control_flow(aa->then_body, goto1, surrounding_loop);
       goto1->label.rei = end;
       end->num_users++;
       goto1->next = l2_ast;
-      l2_ast->next = flatten_control_flow(aa->else_body, end_ast);
+      l2_ast->next = flatten_control_flow(aa->else_body, end_ast, surrounding_loop);
       end_ast->next = aa->next;
 
       prev_next = &end_ast->next;
@@ -60,7 +67,13 @@ struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append) {
 
       init_label("head", &head_l, &head_ast);
       init_label("body", &body_l, &body_ast);
-      init_label("end", &end_l, &end_ast);
+      init_label("end_while", &end_l, &end_ast);
+
+      struct LoopRepr loop_repr = {
+        .head_l = head_l,
+        .body_l = body_l,
+        .end_l = end_l,
+      };
 
       struct AstStBranch *branch = ALLOC_TAGGED(AstStBranch);
       struct AstStGoto *goto_head = ALLOC_TAGGED(AstStGoto);
@@ -73,7 +86,7 @@ struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append) {
       branch->else_label.rei = end_l;
       end_l->num_users++;
       branch->next = body_ast;
-      body_ast->next = flatten_control_flow(aa->body, goto_head);
+      body_ast->next = flatten_control_flow(aa->body, goto_head, &loop_repr);
       goto_head->label.rei = head_l;
       head_l->num_users++;
       goto_head->next = end_ast;
@@ -81,6 +94,39 @@ struct AstSt *flatten_control_flow(struct AstSt *a, struct AstSt *append) {
 
       prev_next = &end_ast->next;
       a = aa->next;
+
+      
+      
+    } else if (a->tag == TAG(AstStBreak)) {
+      struct AstStBreak *aa = (struct AstStBreak *)a;
+      assert(aa->label_unimplemented_sentry == 1);
+
+      struct AstStGoto *goto_end = ALLOC_TAGGED(AstStGoto);
+      goto_end->label.rei = surrounding_loop->end_l;
+
+      goto_end->label.rei->num_users++;
+      goto_end->next = a->next;
+
+      
+      *prev_next = goto_end;
+      prev_next = &goto_end->next;
+      a = a->next;
+
+    } else if (a->tag == TAG(AstStContinue)) {
+     struct AstStContinue *aa = (struct AstStContinue *)a;
+     assert(aa->label_unimplemented_sentry == 1);
+
+     struct AstStGoto *goto_head = ALLOC_TAGGED(AstStGoto);
+      goto_head->label.rei = surrounding_loop->head_l;
+
+      goto_head->label.rei->num_users++;
+      goto_head->next = a->next;
+
+      
+      *prev_next = goto_head;
+      prev_next = &goto_head->next;
+      a = a->next;
+
     } else {
       prev_next = &a->next;
       a = a->next;
@@ -200,9 +246,9 @@ void flatten_all_functions(struct AstTl *a) {
   while (a != NULL) {
     if (a->tag == TAG(AstTlFn)) {
       struct AstTlFn *aa = (struct AstTlFn *)a;
-      aa->body = flatten_control_flow(aa->body, NULL);
+      aa->body = flatten_control_flow(aa->body, NULL, NULL);
       streamline_labels(aa->body);
-      remove_unused_labels(aa->body);
+     remove_unused_labels(aa->body);
     }
     a = a->next;
   }
