@@ -1,11 +1,15 @@
 #include "basics.h"
 
+typedef int Zero[0];
+
+struct Pod {
+	int hash;
+	int key;
+	Zero value;
+};
+
 
 int main(void) {
-  printf(" asdfadsf \x1B[0m\n");
-  printf(" \x1B[1m asdfadsf \x1B[0m\n");
-  printf(" \x1B[1m\x1B[31m masdfadsf \x1B[0m\n");
-  printf(" asdfadsf \x1B[0m\n");
-  printf(" asdfadsf \x1B[0m\n");
-  printf(" asdfadsf \x1B[0m\n");
+	printf("sizeof int[0] %ld\n", sizeof(Zero));
+	printf("sizeof Pod%ld\n", sizeof(struct Pod));
 }
